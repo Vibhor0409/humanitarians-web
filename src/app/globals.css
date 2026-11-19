@@ -1,0 +1,224 @@
+@import "tailwindcss";
+
+/* Rosewater palette. Cream and blush carry the page, Rose (the Humanitarians crest red,
+   deepened) marks actions and key numbers, Plum is the ink. Clay is a warm second accent. */
+@theme {
+  --color-plum: #2a1117;
+  --color-plum-2: #3a1a22;
+  --color-cream: #fffaf5;
+  --color-blush: #fbece6;
+  --color-petal: #f5d5cf;
+  --color-rose: #b51f45;
+  --color-rose-deep: #8e1535;
+  --color-rose-soft: #e9a6ad;
+  --color-clay: #b8562f;
+  --color-ash: #6e5a5e;
+  --color-line: rgb(42 17 23 / 0.1);
+
+  --font-serif: "Fraunces Variable", "Iowan Old Style", Georgia, serif;
+  --font-sans: "DM Sans Variable", system-ui, -apple-system, sans-serif;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+html {
+  background: var(--color-cream);
+  color: var(--color-plum);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-cream);
+}
+
+::selection {
+  background: var(--color-rose);
+  color: var(--color-cream);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-rose);
+  outline-offset: 3px;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+p {
+  text-wrap: pretty;
+}
+
+@layer components {
+  .wrap {
+    width: 100%;
+    max-width: 1280px;
+    margin-inline: auto;
+    padding-inline: clamp(16px, 4vw, 48px);
+  }
+
+  .serif {
+    font-family: var(--font-serif);
+    font-variation-settings: "SOFT" 100, "WONK" 0;
+    font-weight: 380;
+    letter-spacing: -0.02em;
+    line-height: 1.02;
+  }
+
+  .eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    height: 52px;
+    padding-inline: 26px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition:
+      transform 180ms var(--ease-out),
+      background-color 180ms var(--ease-out),
+      color 180ms var(--ease-out),
+      border-color 180ms var(--ease-out);
+  }
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+  .btn:active {
+    transform: translateY(0) scale(0.97);
+  }
+  .btn-rose {
+    background: var(--color-rose);
+    color: var(--color-cream);
+    box-shadow: 0 12px 30px -14px rgb(181 31 69 / 0.7);
+  }
+  .btn-rose:hover {
+    background: var(--color-rose-deep);
+  }
+  .btn-line {
+    border: 1px solid currentColor;
+  }
+  .btn-line:hover {
+    background: var(--color-plum);
+    border-color: var(--color-plum);
+    color: var(--color-cream);
+  }
+  .btn .arrow {
+    transition: transform 180ms var(--ease-out);
+  }
+  .btn:hover .arrow {
+    transform: translateX(3px);
+  }
+
+  .photo {
+    overflow: hidden;
+    position: relative;
+  }
+  .photo img {
+    transition: transform 700ms var(--ease-out);
+  }
+  .photo:hover img {
+    transform: scale(1.03);
+  }
+
+  .lift {
+    transition:
+      transform 220ms var(--ease-out),
+      box-shadow 220ms var(--ease-out),
+      border-color 220ms var(--ease-out);
+  }
+  .lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 40px -24px rgb(42 17 23 / 0.35);
+  }
+
+  .ulink {
+    background: linear-gradient(currentColor, currentColor) 0 100% / 0 1.5px no-repeat;
+    transition: background-size 260ms var(--ease-out);
+  }
+  .ulink:hover {
+    background-size: 100% 1.5px;
+  }
+}
+
+/* Intro: the crest settles in (transform only, so it never delays paint), text rises after it. */
+@keyframes crest {
+  from {
+    transform: scale(0.94);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes scroll-dot {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  70% {
+    transform: translateY(14px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+}
+.intro-crest {
+  animation: crest 1.2s var(--ease-out) both;
+}
+.intro-rise {
+  animation: rise 0.9s var(--ease-out) 0.25s both;
+}
+.scroll-dot {
+  animation: scroll-dot 1.8s var(--ease-out) infinite;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee {
+  animation: marquee 40s linear infinite;
+}
+.marquee-host:hover .marquee {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}

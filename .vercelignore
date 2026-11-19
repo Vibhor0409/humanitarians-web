@@ -1,0 +1,8 @@
+.env*
+.shots
+.playwright-mcp
+.data
+.next
+node_modules
+.shots
+.shots
